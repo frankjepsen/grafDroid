@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name" />
+
+    <EditText
+        android:id="@+id/nameOfVdr"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:singleLine="true"
+        android:hint="Name of VDR">
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IP" />
+
+    <EditText
+        android:id="@+id/ipOfVdr"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:singleLine="true"
+        android:hint="IP of VDR"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Port" 
+        />
+
+    <EditText
+        android:id="@+id/portOfVdr"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="2039"
+        android:inputType="numberDecimal"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/saveVdr"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="saveVdr" 
+        android:text="Save" />
+
+</LinearLayout>
