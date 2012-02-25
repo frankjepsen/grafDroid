@@ -3,9 +3,12 @@ package org.yavdr.grafdroid.tcp;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 
 import org.yavdr.grafdroid.dao.pojo.Vdr;
 
@@ -128,6 +131,24 @@ public class TcpServiceHandler implements Runnable {
 		}
 	}
 
+	public void sendSVDRP(String msg) {
+		try {
+			Socket svdrSocket = new Socket(serverAddr, 6419);
+			OutputStream svdrOut = svdrSocket.getOutputStream();
+			svdrOut.write(msg.getBytes());
+			svdrOut.write('\n');
+			svdrOut.write("quit".getBytes());
+			svdrOut.write('\n');
+			svdrOut.flush();
+			svdrOut.close();
+			svdrSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	private void disconnect() throws IOException {
 		if (socket != null && !socket.isClosed()) {
 			try {
@@ -163,5 +184,6 @@ public class TcpServiceHandler implements Runnable {
 		return ((value & 0xFF000000) >> 24) | ((value & 0x00FF0000) >> 8)
 				| ((value & 0x0000FF00) << 8) | ((value & 0x000000FF) << 24);
 	}
+
 
 }

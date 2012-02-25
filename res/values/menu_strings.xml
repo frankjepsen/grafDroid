@@ -5,4 +5,10 @@
     <string name="add_vdr">VDR hinzfügen</string>
     <string name="help">Hilfe</string>
     <string name="exit">Beenden</string>  
+    <string name="view">View</string>
+    <string name="standard">Standard</string>
+    <string name="clock">Clock</string>
+    <string name="detail">Detail</string>
+    <string name="dia">Dia</string>
+    <string name="sysinfo">Sysinfo</string>
 </resources>

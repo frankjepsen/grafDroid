@@ -34,6 +34,7 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		OnTouchListener, OnClickListener {
@@ -47,7 +48,8 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	private int viewWidth;
 	private int viewHeight;
 	private Dao<Vdr, String> vdrDao;
-	//private long lastKlick = Long.MIN_VALUE;
+
+	// private long lastKlick = Long.MIN_VALUE;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -131,7 +133,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 			if (currentVdr == null) {
 				Intent intent = new Intent(
 						"org.yavdr.grafdroid.intent.action.MANAGEVDR");
-				startActivity(intent);
+				startActivityForResult(intent, 1);
 			} else {
 
 				if (currentVdr.isOnline()) {
@@ -142,7 +144,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 					Intent intent = new Intent(
 							"org.yavdr.grafdroid.intent.action.MANAGEVDR");
 					intent.putExtra("offline", true);
-					startActivity(intent);
+					startActivityForResult(intent, 1);
 				}
 			}
 
@@ -165,10 +167,11 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		}
 		// wakeLock.release();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
+		Toast.makeText(getApplicationContext(), "" + resultCode,
+				Toast.LENGTH_LONG);
 	}
 
 	public void callCompleted(GraphTFTHeader header, byte[] msg) {
@@ -198,13 +201,13 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			//long now = System.currentTimeMillis();
-			//if (now < lastKlick + 250) // doppel klick
-				finish();
-			//else {
-			//	lastKlick = now;
-			//	handler.sendMouseEvent(0, 0, 3, 0, 0);
-			//}
+			// long now = System.currentTimeMillis();
+			// if (now < lastKlick + 250) // doppel klick
+			// finish();
+			// else {
+			// lastKlick = now;
+			handler.sendMouseEvent(0, 0, 3, 0, 0);
+			// }
 			return true;
 			/*
 			 * case KeyEvent.KEYCODE_VOLUME_UP: if (mBound) mService.keyVolUp();
@@ -303,9 +306,24 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 			return true;
 		case R.id.help:
 			return true;
+
+		case R.id.standard:
+			handler.sendSVDRP("plug graphtft VIEW Standard");
+			return true;
+		case R.id.detail:
+			handler.sendSVDRP("plug graphtft VIEW Detail");
+			return true;
+		case R.id.dia:
+			handler.sendSVDRP("plug graphtft VIEW Dia");
+			return true;
+		case R.id.clock:
+			handler.sendSVDRP("plug graphtft VIEW Clock");
+			return true;
+		case R.id.sysinfo:
+			handler.sendSVDRP("plug graphtft VIEW Sysinfo");
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
 }

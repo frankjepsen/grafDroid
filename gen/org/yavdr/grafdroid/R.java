@@ -17,7 +17,10 @@ public final class R {
         public static final int online=0x7f020003;
     }
     public static final class id {
-        public static final int add_vdr=0x7f06000c;
+        public static final int add_vdr=0x7f060012;
+        public static final int clock=0x7f060010;
+        public static final int detail=0x7f06000e;
+        public static final int dia=0x7f06000f;
         public static final int exit=0x7f060009;
         public static final int help=0x7f06000b;
         public static final int image=0x7f060006;
@@ -29,7 +32,10 @@ public final class R {
         public static final int portOfVdr=0x7f060002;
         public static final int saveVdr=0x7f060003;
         public static final int secondLine=0x7f060007;
+        public static final int standard=0x7f06000d;
+        public static final int sysinfo=0x7f060011;
         public static final int title=0x7f060008;
+        public static final int view=0x7f06000c;
     }
     public static final class layout {
         public static final int editvdr=0x7f030000;
@@ -42,10 +48,16 @@ public final class R {
     }
     public static final class string {
         public static final int add_vdr=0x7f040002;
-        public static final int app_name=0x7f040005;
+        public static final int app_name=0x7f04000b;
+        public static final int clock=0x7f040007;
+        public static final int detail=0x7f040008;
+        public static final int dia=0x7f040009;
         public static final int edit_vdr=0x7f040001;
         public static final int exit=0x7f040004;
         public static final int help=0x7f040003;
         public static final int manage_vdr=0x7f040000;
+        public static final int standard=0x7f040006;
+        public static final int sysinfo=0x7f04000a;
+        public static final int view=0x7f040005;
     }
 }
