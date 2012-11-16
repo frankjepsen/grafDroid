@@ -55,6 +55,8 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		((GrafDroidApplication) getApplication()).setFinish(false);
+
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -114,12 +116,14 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		((GrafDroidApplication) getApplication()).setFinish(false);
 		lock.reenableKeyguard();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
+		((GrafDroidApplication) getApplication()).setFinish(false);
 	}
 
 	@Override
@@ -131,9 +135,13 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 					.getCurrentVdr();
 
 			if (currentVdr == null) {
-				Intent intent = new Intent(
-						"org.yavdr.grafdroid.intent.action.MANAGEVDR");
-				startActivityForResult(intent, 1);
+				if (((GrafDroidApplication) getApplication()).isFinish()) {
+					this.finish();
+				} else {
+					Intent intent = new Intent(
+							"org.yavdr.grafdroid.intent.action.MANAGEVDR");
+					startActivity(intent);
+				}
 			} else {
 
 				if (currentVdr.isOnline()) {
@@ -141,10 +149,14 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 					th = new Thread(handler);
 					th.start();
 				} else {
-					Intent intent = new Intent(
-							"org.yavdr.grafdroid.intent.action.MANAGEVDR");
-					intent.putExtra("offline", true);
-					startActivityForResult(intent, 1);
+					if (((GrafDroidApplication) getApplication()).isFinish()) {
+						this.finish();
+					} else {
+						Intent intent = new Intent(
+								"org.yavdr.grafdroid.intent.action.MANAGEVDR");
+						intent.putExtra("offline", true);
+						startActivity(intent);
+					}
 				}
 			}
 

@@ -15,8 +15,10 @@ public class GrafDroidApplication extends Application {
 	private Vdr currentVdr;
 	private Dao<VdrAddress, String> vdrAddressDao;
 	private Dao<Vdr, String> vdrDao;
-
+	private boolean finish = false;
+	
 	public void setCurrentVdr(Vdr vdr) {
+		this.setFinish(false);
 		if (!vdr.equals(this.currentVdr)) {
 			try {
 				vdrAddressDao.delete(vdrAddressDao.queryForAll());
@@ -54,5 +56,13 @@ public class GrafDroidApplication extends Application {
 	public void onTerminate() {
 		super.onTerminate();
 		
+	}
+
+	public boolean isFinish() {
+		return finish;
+	}
+
+	public void setFinish(boolean finish) {
+		this.finish = finish;
 	}
 }

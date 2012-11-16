@@ -55,7 +55,7 @@ public class TcpServiceHandler implements Runnable {
 							out.writeInt(0);
 							lastCheck = current;
 						}
-						if (in.available() > 4) {
+						if (in.available() > 8) {
 							final GraphTFTHeader header = new GraphTFTHeader();
 
 							header.command = in.readInt();
@@ -152,11 +152,11 @@ public class TcpServiceHandler implements Runnable {
 	private void disconnect() throws IOException {
 		if (socket != null && !socket.isClosed()) {
 			try {
-				in.close();
 				out.writeInt(GraphTFTHeader.LOGOUT);
 				out.writeInt(0);
-				out.close();
 			} finally {
+				out.close();
+				in.close();
 				socket.close();
 			}
 		}

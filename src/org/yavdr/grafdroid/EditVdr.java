@@ -4,21 +4,24 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 
+import org.yavdr.grafdroid.core.GrafDroidApplication;
 import org.yavdr.grafdroid.dao.GrafDroidDBHelper;
 import org.yavdr.grafdroid.dao.pojo.Vdr;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.inputmethodservice.Keyboard.Key;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnKeyListener;
 import android.widget.EditText;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedUpdate;
 
 public class EditVdr extends Activity {
 
@@ -26,7 +29,7 @@ public class EditVdr extends Activity {
 	private EditText ip;
 	private EditText name;
 	private EditText port;
-	
+
 	private Vdr vdr;
 	private boolean isNew = false;
 
@@ -35,7 +38,8 @@ public class EditVdr extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		GrafDroidDBHelper dbHelper = new GrafDroidDBHelper(getApplicationContext());
+		GrafDroidDBHelper dbHelper = new GrafDroidDBHelper(
+				getApplicationContext());
 
 		try {
 			dao = dbHelper.getVdrDao();
@@ -75,16 +79,18 @@ public class EditVdr extends Activity {
 
 			name.setOnFocusChangeListener(new OnFocusChangeListener() {
 
-	            public void onFocusChange(View v, boolean hasFocus) {
-	                if(!hasFocus && "".equals(ip.getText().toString())) {
-	                	try {
-							InetAddress serverAddr = InetAddress.getByName(((EditText)v).getText().toString());
+				public void onFocusChange(View v, boolean hasFocus) {
+					if (!hasFocus && "".equals(ip.getText().toString())) {
+						try {
+							InetAddress serverAddr = InetAddress
+									.getByName(((EditText) v).getText()
+											.toString());
 							ip.setText(serverAddr.getHostAddress());
-						} catch (UnknownHostException e) {}
-	                }
-	            }
-	        });
-
+						} catch (UnknownHostException e) {
+						}
+					}
+				}
+			});
 
 		} catch (SQLException e) {
 			dao = null;
@@ -122,19 +128,19 @@ public class EditVdr extends Activity {
 		super.onDestroy();
 	}
 
-    public void saveVdr(View button) {  
-        try {
-        	vdr.setName(name.getText().toString());
-        	vdr.setPort(Integer.parseInt(port.getText().toString()));
-        	if (isNew) {
-        		vdr.setAddress(ip.getText().toString());
-        		dao.create(vdr);
-        	} else {
-        		dao.update(vdr);
-        		if (!vdr.getAddress().equals(ip.getText().toString())) {
-        			dao.updateId(vdr, ip.getText().toString());
-        		}
-        	}
+	public void saveVdr(View button) {
+		try {
+			vdr.setName(name.getText().toString());
+			vdr.setPort(Integer.parseInt(port.getText().toString()));
+			if (isNew) {
+				vdr.setAddress(ip.getText().toString());
+				dao.create(vdr);
+			} else {
+				dao.update(vdr);
+				if (!vdr.getAddress().equals(ip.getText().toString())) {
+					dao.updateId(vdr, ip.getText().toString());
+				}
+			}
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,9 +148,9 @@ public class EditVdr extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        finish();
-    }  
-    
+		finish();
+	}
+
 	private void initView() {
 		final Bundle extras = getIntent().getExtras();
 
@@ -153,7 +159,7 @@ public class EditVdr extends Activity {
 			name.setText("");
 			ip.setText("");
 			port.setText("2039");
-			
+
 			vdr = new Vdr();
 		} else if (extras != null && !extras.getBoolean("add", false)) {
 			try {

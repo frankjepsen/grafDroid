@@ -2,7 +2,6 @@ package org.yavdr.grafdroid.adapter;
 
 import java.util.List;
 
-
 import org.yavdr.grafdroid.R;
 import org.yavdr.grafdroid.dao.pojo.Vdr;
 
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
 public class VdrAdapter extends BaseAdapter {
@@ -91,7 +89,7 @@ public class VdrAdapter extends BaseAdapter {
 				holder.secondlineView.setText(vdr.getAddress()
 						+ ":" + vdr.getPort());
 
-				if (holder.vdr.isOnline()) {
+				if (vdr.isOnline()) {
 					holder.imageView.setImageResource(R.drawable.online);
 				} else {
 					holder.imageView.setImageResource(R.drawable.offline);

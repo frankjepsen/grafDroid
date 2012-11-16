@@ -8,15 +8,19 @@ import org.yavdr.grafdroid.core.GrafDroidApplication;
 import org.yavdr.grafdroid.dao.GrafDroidDBHelper;
 import org.yavdr.grafdroid.dao.pojo.Vdr;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
+import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,7 +41,8 @@ public class ManageVdr extends ListActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		GrafDroidDBHelper dbHelper = new GrafDroidDBHelper(getApplicationContext());
+		GrafDroidDBHelper dbHelper = new GrafDroidDBHelper(
+				getApplicationContext());
 
 		lv = getListView();
 		lv.setTextFilterEnabled(true);
@@ -64,17 +69,18 @@ public class ManageVdr extends ListActivity {
 
 		try {
 			if (dao.countOf() == 0) {
-				Toast.makeText(getApplicationContext(), "keine VDR konfiguriert.",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(),
+						"keine VDR konfiguriert.", Toast.LENGTH_LONG).show();
 			} else {
 				final Bundle extras = getIntent().getExtras();
 
 				if (extras != null && extras.getBoolean("offline", false)) {
-					Toast.makeText(getApplicationContext(), "VDR nicht online.",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(),
+							"VDR nicht online.", Toast.LENGTH_LONG).show();
 				}
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {
+		}
 
 	}
 
@@ -108,7 +114,7 @@ public class ManageVdr extends ListActivity {
 				refreshListItems();
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -123,12 +129,13 @@ public class ManageVdr extends ListActivity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.add_vdr:
-			Intent intent = new Intent("org.yavdr.grafdroid.intent.action.ADDVDR");
+			Intent intent = new Intent(
+					"org.yavdr.grafdroid.intent.action.ADDVDR");
 			intent.putExtra("add", true);
 			startActivity(intent);
 			return true;
 		case R.id.exit:
-			setResult(-1);
+			((GrafDroidApplication) getApplication()).setFinish(true);
 			finish();
 			return true;
 		default:
@@ -153,14 +160,15 @@ public class ManageVdr extends ListActivity {
 
 		/* Add Context-Menu listener to the ListView. */
 		lv.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
-			
+
 			public void onCreateContextMenu(ContextMenu menu, View v,
 					ContextMenuInfo menuInfo) {
-				Vdr vdr = ((VdrAdapter.ViewHolder)((AdapterView.AdapterContextMenuInfo) menuInfo).targetView.getTag()).vdr;
+				Vdr vdr = ((VdrAdapter.ViewHolder) ((AdapterView.AdapterContextMenuInfo) menuInfo).targetView
+						.getTag()).vdr;
 				menu.setHeaderTitle(vdr.getName());
 				menu.add(0, CONTEXTMENU_EDITITEM, 0, "Edit this VDR!");
 				menu.add(0, CONTEXTMENU_DELETEITEM, 0, "Delete this VDR!");
-				
+
 			}
 		});
 	}
@@ -172,8 +180,11 @@ public class ManageVdr extends ListActivity {
 		/* Switch on the ID of the item, to get what the user selected. */
 		switch (item.getItemId()) {
 		case CONTEXTMENU_DELETEITEM:
-			vdr = ((VdrAdapter.ViewHolder)((AdapterView.AdapterContextMenuInfo) menuInfo).targetView.getTag()).vdr;
+			vdr = ((VdrAdapter.ViewHolder) ((AdapterView.AdapterContextMenuInfo) menuInfo).targetView
+					.getTag()).vdr;
 			try {
+				if (vdr != null && vdr.equals(((GrafDroidApplication) getApplication()).getCurrentVdr()))
+					((GrafDroidApplication) getApplication()).setCurrentVdr(null);
 				dao.delete(vdr);
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -181,8 +192,10 @@ public class ManageVdr extends ListActivity {
 			refreshListItems();
 			return true; /* true means: "we handled the event". */
 		case CONTEXTMENU_EDITITEM:
-			vdr = ((VdrAdapter.ViewHolder)((AdapterView.AdapterContextMenuInfo) menuInfo).targetView.getTag()).vdr;
-			Intent intent = new Intent("org.yavdr.grafdroid.intent.action.EDITVDR");
+			vdr = ((VdrAdapter.ViewHolder) ((AdapterView.AdapterContextMenuInfo) menuInfo).targetView
+					.getTag()).vdr;
+			Intent intent = new Intent(
+					"org.yavdr.grafdroid.intent.action.EDITVDR");
 			intent.putExtra("add", false);
 			intent.putExtra("vdr", vdr.getAddress());
 			startActivity(intent);
@@ -191,4 +204,39 @@ public class ManageVdr extends ListActivity {
 		return super.onContextItemSelected(item);
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Vdr vdr = ((GrafDroidApplication) getApplication()).getCurrentVdr();
+		if (vdr == null || !vdr.isOnline()) {
+			switch (keyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				// build exit Dialog!
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage("Möchten Sie die App wirklich beenden?")
+						.setCancelable(false)
+						.setPositiveButton("Ja",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										
+										((GrafDroidApplication) getApplication()).setFinish(true);
+										ManageVdr.this.finish();
+										return;
+									}
+								})
+						.setNegativeButton("Nein",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										((GrafDroidApplication) getApplication()).setFinish(false);
+										return;
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }
