@@ -152,6 +152,11 @@ public class TcpServiceHandler implements Runnable {
 	private void disconnect() throws IOException {
 		if (socket != null && !socket.isClosed()) {
 			try {
+				this._act.runOnUiThread(new Runnable() {
+					public void run() {
+						_listener.callDisconnect();
+					}
+				});
 				out.writeInt(GraphTFTHeader.LOGOUT);
 				out.writeInt(0);
 			} finally {

@@ -34,6 +34,7 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
 public class GrafDroidActivity extends Activity implements GraphTFTListener,
@@ -144,20 +145,20 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 				}
 			} else {
 
-				if (currentVdr.isOnline()) {
+//				if (currentVdr.isOnline()) {
 					handler = new TcpServiceHandler(this, this, currentVdr);
 					th = new Thread(handler);
 					th.start();
-				} else {
-					if (((GrafDroidApplication) getApplication()).isFinish()) {
-						this.finish();
-					} else {
-						Intent intent = new Intent(
-								"org.yavdr.grafdroid.intent.action.MANAGEVDR");
-						intent.putExtra("offline", true);
-						startActivity(intent);
-					}
-				}
+//				} else {
+//					if (((GrafDroidApplication) getApplication()).isFinish()) {
+//						this.finish();
+//					} else {
+//						Intent intent = new Intent(
+//								"org.yavdr.grafdroid.intent.action.MANAGEVDR");
+//						intent.putExtra("offline", true);
+//						startActivity(intent);
+//					}
+//				}
 			}
 
 		} catch (IOException e) {
@@ -197,6 +198,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 
 			Bitmap bmp = BitmapFactory.decodeByteArray(msg, 0, msg.length);
 			if (bmp != null) {
+				image.setScaleType(ScaleType.FIT_XY);
 				image.setImageBitmap(bmp);
 
 			}
@@ -207,6 +209,16 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 			break;
 		}
 		return;
+	}
+	
+	public void callDisconnect() {
+		if (image.getScaleType() != ScaleType.CENTER) {
+			Log.d("TCP", "Disconnect Clear Image");
+			image.setScaleType(ScaleType.CENTER);
+			image.setImageResource(R.drawable.offline);
+		}
+		else
+			Log.d("TCP", "Disconnect");
 	}
 
 	@Override

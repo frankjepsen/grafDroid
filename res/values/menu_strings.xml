@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string name="manage_vdr">verwalte VDR</string>
-    <string name="edit_vdr">verwalte VDR</string>
-    <string name="add_vdr">VDR hinzfügen</string>
+    <string name="manage_vdr">Verwalte VDR</string>
+    <string name="edit_vdr">Verwalte VDR</string>
+    <string name="add_vdr">VDR hinzufügen</string>
     <string name="help">Hilfe</string>
     <string name="exit">Beenden</string>  
-    <string name="view">View</string>
+    <string name="view">Ansicht</string>
     <string name="standard">Standard</string>
-    <string name="clock">Clock</string>
+    <string name="clock">Uhr</string>
     <string name="detail">Detail</string>
     <string name="dia">Dia</string>
     <string name="sysinfo">Sysinfo</string>

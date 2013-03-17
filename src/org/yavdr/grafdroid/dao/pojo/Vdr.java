@@ -62,7 +62,7 @@ public class Vdr {
 				return false;
 			}
 		}
-		
+
 		try {
 			return inetAddress.isReachable(100);
 		} catch (IOException e) {

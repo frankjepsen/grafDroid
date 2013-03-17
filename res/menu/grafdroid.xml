@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/exit"
-          android:icon="@android:drawable/ic_menu_close_clear_cancel"
-          android:title="@string/exit" />
-    <item android:id="@+id/manage_vdr"
-          android:icon="@drawable/icon"
-          android:title="@string/manage_vdr" />
-    <item android:id="@+id/help"
-          android:icon="@android:drawable/ic_menu_help"
-          android:title="@string/help" />
-    <item android:id="@+id/view" android:title="@string/view" android:icon="@android:drawable/ic_menu_view">
-        <menu>
-            <item android:id="@+id/standard" android:title="@string/standard"/>
-            <item android:id="@+id/detail" android:title="@string/detail" /><item android:id="@+id/dia" android:title="@string/dia" /><item android:id="@+id/clock" android:title="@string/clock"/>
-            
-            
-            <item android:id="@+id/sysinfo" android:title="@string/sysinfo"/>
-        </menu>
-    </item>
+	<item android:id="@+id/exit"
+		android:icon="@android:drawable/ic_menu_close_clear_cancel"
+		android:title="@string/exit" />
+	<item android:id="@+id/manage_vdr"
+		android:icon="@drawable/icon"
+		android:title="@string/manage_vdr" />
+	<item android:id="@+id/help"
+		android:icon="@android:drawable/ic_menu_help"
+		android:title="@string/help" />
+	<item android:id="@+id/view" android:title="@string/view"
+		android:icon="@android:drawable/ic_menu_view">
+		<menu>
+			<item android:id="@+id/standard" android:title="@string/standard"/>
+			<item android:id="@+id/detail" android:title="@string/detail" />
+			<item android:id="@+id/dia" android:title="@string/dia" />
+			<item android:id="@+id/clock" android:title="@string/clock"/>
+			<item android:id="@+id/sysinfo" android:title="@string/sysinfo"/>
+		</menu>
+	</item>
 </menu>
