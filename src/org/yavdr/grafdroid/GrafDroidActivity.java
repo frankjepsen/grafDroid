@@ -49,6 +49,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	private int viewWidth;
 	private int viewHeight;
 	private Dao<Vdr, String> vdrDao;
+	private Window w;
 
 	// private long lastKlick = Long.MIN_VALUE;
 
@@ -61,11 +62,8 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-		Window w = this.getWindow(); // in Activity's onCreate() for instance
-		w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
-				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN
-						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		w = this.getWindow(); // in Activity's onCreate() for instance
+		w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN , WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		/*
 		 * w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		 * 
@@ -191,7 +189,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		switch (header.command) {
 		case GraphTFTHeader.WELCOME:
 			Log.d("TCP", "Got Welcome");
-
+			w.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 			break;
 		case GraphTFTHeader.DATA:
 			Log.d("TCP", "Got Data");
@@ -214,6 +212,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	public void callDisconnect() {
 		if (image.getScaleType() != ScaleType.CENTER) {
 			Log.d("TCP", "Disconnect Clear Image");
+			w.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 			image.setScaleType(ScaleType.CENTER);
 			image.setImageResource(R.drawable.offline);
 		}

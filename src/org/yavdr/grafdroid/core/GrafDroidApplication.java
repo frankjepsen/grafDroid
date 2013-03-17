@@ -19,10 +19,12 @@ public class GrafDroidApplication extends Application {
 	
 	public void setCurrentVdr(Vdr vdr) {
 		this.setFinish(false);
-		if (!vdr.equals(this.currentVdr)) {
+		if ((vdr == null) || (!vdr.equals(this.currentVdr))) {
 			try {
 				vdrAddressDao.delete(vdrAddressDao.queryForAll());
-				vdrAddressDao.create(new VdrAddress(vdr.getAddress()));
+                if (vdr != null) {
+					vdrAddressDao.create(new VdrAddress(vdr.getAddress()));
+                }
 				this.currentVdr = vdr;
 			} catch (SQLException e) {}
 		}
