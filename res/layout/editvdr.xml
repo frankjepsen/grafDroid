@@ -12,9 +12,9 @@
     <EditText
         android:id="@+id/nameOfVdr"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:singleLine="true"
-        android:hint="Name of VDR">
+        android:layout_height="wrap_content"
+        android:hint="Name des VDR"
+        android:singleLine="true" >
 
         <requestFocus />
     </EditText>
@@ -27,9 +27,9 @@
     <EditText
         android:id="@+id/ipOfVdr"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:singleLine="true"
-        android:hint="IP of VDR"/>
+        android:layout_height="wrap_content"
+        android:hint="IP des VDR"
+        android:singleLine="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
         android:id="@+id/saveVdr"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="saveVdr" 
-        android:text="Save" />
+        android:onClick="saveVdr"
+        android:text="Speichern" />
 
 </LinearLayout>

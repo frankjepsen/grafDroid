@@ -166,8 +166,8 @@ public class ManageVdr extends ListActivity {
 				Vdr vdr = ((VdrAdapter.ViewHolder) ((AdapterView.AdapterContextMenuInfo) menuInfo).targetView
 						.getTag()).vdr;
 				menu.setHeaderTitle(vdr.getName());
-				menu.add(0, CONTEXTMENU_EDITITEM, 0, "Edit this VDR!");
-				menu.add(0, CONTEXTMENU_DELETEITEM, 0, "Delete this VDR!");
+				menu.add(0, CONTEXTMENU_EDITITEM, 0, "Eintrag bearbeiten");
+				menu.add(0, CONTEXTMENU_DELETEITEM, 0, "Eintrag löschen");
 
 			}
 		});
@@ -204,7 +204,7 @@ public class ManageVdr extends ListActivity {
 		return super.onContextItemSelected(item);
 	}
 
-	@Override
+/*	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Vdr vdr = ((GrafDroidApplication) getApplication()).getCurrentVdr();
 		if (vdr == null || !vdr.isOnline()) {
@@ -212,7 +212,7 @@ public class ManageVdr extends ListActivity {
 			case KeyEvent.KEYCODE_BACK:
 				// build exit Dialog!
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage("MÃ¶chten Sie die App wirklich beenden?")
+				builder.setMessage("Möchten Sie die App wirklich beenden?")
 						.setCancelable(false)
 						.setPositiveButton("Ja",
 								new DialogInterface.OnClickListener() {
@@ -239,4 +239,5 @@ public class ManageVdr extends ListActivity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+*/
 }

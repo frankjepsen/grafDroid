@@ -16,6 +16,9 @@ import com.j256.ormlite.dao.Dao;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -23,6 +26,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -71,9 +75,9 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		 */
 		setContentView(R.layout.main);
 
-		KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Activity.KEYGUARD_SERVICE);
-		lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
-		lock.disableKeyguard();
+		//KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Activity.KEYGUARD_SERVICE);
+		//lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
+		//lock.disableKeyguard();
 
 		/*
 		 * PowerManager powerManager = (PowerManager)
@@ -116,7 +120,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	public void onDestroy() {
 		super.onDestroy();
 		((GrafDroidApplication) getApplication()).setFinish(false);
-		lock.reenableKeyguard();
+//		lock.reenableKeyguard();
 	}
 
 	@Override
@@ -189,7 +193,13 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		switch (header.command) {
 		case GraphTFTHeader.WELCOME:
 			Log.d("TCP", "Got Welcome");
-			w.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+			PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+			WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+			wakeLock.acquire();
+			w.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON +
+				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
+				WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED +
+				WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 			break;
 		case GraphTFTHeader.DATA:
 			Log.d("TCP", "Got Data");
@@ -212,8 +222,14 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	public void callDisconnect() {
 		if (image.getScaleType() != ScaleType.CENTER) {
 			Log.d("TCP", "Disconnect Clear Image");
-			w.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-			image.setScaleType(ScaleType.CENTER);
+			w.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON +
+					WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
+					WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED +
+					WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+			KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE); 
+            KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
+            keyguardLock.disableKeyguard();
+            image.setScaleType(ScaleType.CENTER);
 			image.setImageResource(R.drawable.offline);
 		}
 		else

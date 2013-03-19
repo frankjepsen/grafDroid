@@ -5,6 +5,7 @@
     <string name="add_vdr">VDR hinzufügen</string>
     <string name="help">Hilfe</string>
     <string name="exit">Beenden</string>  
+    <string name="back">Zurück</string>  
     <string name="view">Ansicht</string>
     <string name="standard">Standard</string>
     <string name="clock">Uhr</string>
