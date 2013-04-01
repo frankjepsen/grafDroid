@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.yavdr.grafdroid"
     android:versionCode="1"
-    android:versionName="0.4" >
+    android:versionName="0.5" >
 
     <uses-sdk android:minSdkVersion="9" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -40,6 +40,13 @@
                 <action android:name="org.yavdr.grafdroid.intent.action.EDITVDR" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="org.yavdr.grafdroid.Help"
+            android:label="@string/title_activity_help" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.yavdr.grafdroid.GrafDroidActivity" />
         </activity>
     </application>
 

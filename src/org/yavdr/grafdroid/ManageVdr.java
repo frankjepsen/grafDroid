@@ -8,22 +8,17 @@ import org.yavdr.grafdroid.core.GrafDroidApplication;
 import org.yavdr.grafdroid.dao.GrafDroidDBHelper;
 import org.yavdr.grafdroid.dao.pojo.Vdr;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
-import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -106,7 +101,7 @@ public class ManageVdr extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if (position < knownVdr.size()) {
 			Vdr vdr = knownVdr.get(position);
-			if (vdr != null && vdr.isOnline()) {
+			if (vdr != null) {
 				((GrafDroidApplication) getApplication()).setCurrentVdr(vdr);
 				setResult(0);
 				finish();
@@ -133,6 +128,10 @@ public class ManageVdr extends ListActivity {
 					"org.yavdr.grafdroid.intent.action.ADDVDR");
 			intent.putExtra("add", true);
 			startActivity(intent);
+			return true;
+		case R.id.help:
+			Intent intentHelp = new Intent(this, Help.class);
+			startActivity(intentHelp);
 			return true;
 		case R.id.exit:
 			((GrafDroidApplication) getApplication()).setFinish(true);

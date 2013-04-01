@@ -1,17 +1,16 @@
 package org.yavdr.grafdroid;
 
 import java.io.IOException;
-import java.sql.SQLException;
+//import java.sql.SQLException;
 
 import org.yavdr.grafdroid.core.GrafDroidApplication;
-import org.yavdr.grafdroid.dao.GrafDroidDBHelper;
+//import org.yavdr.grafdroid.dao.GrafDroidDBHelper;
 import org.yavdr.grafdroid.dao.pojo.Vdr;
-import org.yavdr.grafdroid.dao.pojo.VdrAddress;
 import org.yavdr.grafdroid.tcp.GraphTFTHeader;
 import org.yavdr.grafdroid.tcp.GraphTFTListener;
 import org.yavdr.grafdroid.tcp.TcpServiceHandler;
 
-import com.j256.ormlite.dao.Dao;
+//import com.j256.ormlite.dao.Dao;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
@@ -26,7 +25,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.PowerManager;
+//import android.os.PowerManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -39,7 +38,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		OnTouchListener, OnClickListener {
@@ -48,11 +47,11 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	private Thread th;
 	private TcpServiceHandler handler;
 	// private WakeLock wakeLock;
-	private KeyguardLock lock;
+	// private KeyguardLock lock;
 	private MotionEvent lastEvent;
-	private int viewWidth;
-	private int viewHeight;
-	private Dao<Vdr, String> vdrDao;
+	// private int viewWidth;
+	// private int viewHeight;
+	// private Dao<Vdr, String> vdrDao;
 	private Window w;
 
 	// private long lastKlick = Long.MIN_VALUE;
@@ -105,7 +104,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		image.setOnTouchListener(this);
 		image.setFocusableInTouchMode(true);
 		image.setOnClickListener(this);
-
+/*
 		GrafDroidDBHelper dbHelper = new GrafDroidDBHelper(
 				getApplicationContext());
 
@@ -114,6 +113,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		} catch (SQLException e) {
 			vdrDao = null;
 		}
+*/
 	}
 
 	@Override
@@ -185,8 +185,8 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Toast.makeText(getApplicationContext(), "" + resultCode,
-				Toast.LENGTH_LONG);
+//		Toast.makeText(getApplicationContext(), "" + resultCode,
+//				Toast.LENGTH_LONG);
 	}
 
 	public void callCompleted(GraphTFTHeader header, byte[] msg) {
@@ -265,8 +265,8 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 	}
 
 	public void onClick(View v) {
-		int viewWidth = image.getWidth();
-		int viewHeight = image.getHeight();
+//		int viewWidth = image.getWidth();
+//		int viewHeight = image.getHeight();
 
 		Drawable drawable = image.getDrawable();
 		Rect imageBounds = drawable.getBounds();
@@ -282,8 +282,8 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		// Find the ratio of the original image to the scaled image
 		// Should normally be equal unless a disproportionate scaling
 		// (e.g. fitXY) is used.
-		float heightRatio = intrinsicHeight / scaledHeight;
-		float widthRatio = intrinsicWidth / scaledWidth;
+		float heightRatio = (float) intrinsicHeight / scaledHeight;
+		float widthRatio = (float) intrinsicWidth / scaledWidth;
 
 		// do whatever magic to get your touch point
 		// MotionEvent event;
@@ -298,7 +298,7 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 		// values should be (15, 30).
 		int originalImageOffsetX = (int) (scaledImageOffsetX * widthRatio);
 		int originalImageOffsetY = (int) (scaledImageOffsetY * heightRatio);
-
+/*
 		if (viewWidth / intrinsicWidth < viewHeight / intrinsicHeight) {
 			int imageHeight = (int) (scaledHeight * (1.0 * viewWidth / intrinsicWidth));
 			double ratio = 1.0 * intrinsicWidth / viewWidth;
@@ -315,12 +315,10 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 			originalImageOffsetY *= ratio;
 
 		}
-
-		if (originalImageOffsetX > 0 && originalImageOffsetX < intrinsicWidth
-				&& originalImageOffsetY > 0
-				&& originalImageOffsetY < intrinsicHeight) {
-			handler.sendMouseEvent(originalImageOffsetX, originalImageOffsetY,
-					1, 0, 0);
+		*/
+		if (originalImageOffsetX >= 0 && originalImageOffsetX < intrinsicWidth &&
+			originalImageOffsetY >= 0 && originalImageOffsetY < intrinsicHeight) {
+			handler.sendMouseEvent(originalImageOffsetX, originalImageOffsetY, 1, 0, 0);
 		}
 	}
 
@@ -344,8 +342,9 @@ public class GrafDroidActivity extends Activity implements GraphTFTListener,
 			finish();
 			return true;
 		case R.id.help:
+			Intent intentHelp = new Intent(this, Help.class);
+			startActivity(intentHelp);
 			return true;
-
 		case R.id.standard:
 			handler.sendSVDRP("plug graphtft VIEW Standard");
 			return true;

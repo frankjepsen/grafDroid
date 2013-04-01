@@ -5,10 +5,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
 
 import org.yavdr.grafdroid.dao.pojo.Vdr;
 
@@ -19,7 +18,7 @@ public class TcpServiceHandler implements Runnable {
 	private Activity _act;
 	private boolean running = true;
 
-	private InetAddress serverAddr;
+//	private InetAddress serverAddr;
 	private Socket socket;
 	private DataOutputStream out;
 	private DataInputStream in;
@@ -133,7 +132,13 @@ public class TcpServiceHandler implements Runnable {
 
 	public void sendSVDRP(String msg) {
 		try {
-			Socket svdrSocket = new Socket(serverAddr, 6419);
+			Socket svdrSocket = new Socket();
+			try {
+				svdrSocket.connect(new InetSocketAddress(this.server, 6419), 5000);
+			} catch(IOException E) {
+				svdrSocket = null;
+				throw E;
+			}
 			OutputStream svdrOut = svdrSocket.getOutputStream();
 			svdrOut.write(msg.getBytes());
 			svdrOut.write('\n');
@@ -168,8 +173,14 @@ public class TcpServiceHandler implements Runnable {
 	}
 
 	private void connect() throws IOException {
-		serverAddr = InetAddress.getByName(this.server);
-		socket = new Socket(serverAddr, this.port);
+//		serverAddr = InetAddress.getByName(this.server);
+		socket = new Socket();
+		try {
+			socket.connect(new InetSocketAddress(this.server, this.port), 1000);
+		} catch(IOException E) {
+			socket = null;
+			throw E;
+		}
 		out = new DataOutputStream(socket.getOutputStream());
 		in = new DataInputStream(socket.getInputStream());
 

@@ -25,13 +25,11 @@ public class VdrAdapter extends BaseAdapter {
 	private Activity activity;
 	private static LayoutInflater inflater = null;
 	private int itemResId;
-	private Context context;
 
 	public VdrAdapter(final Context context, final int itemResId,
 			final List<Vdr> vdrs, Activity activity) {
 		super();
 
-		this.context = context;
 		this.vdrs = vdrs;
 		this.activity = activity;
 		this.itemResId = itemResId;

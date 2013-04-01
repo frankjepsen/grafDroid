@@ -4,21 +4,15 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 
-import org.yavdr.grafdroid.core.GrafDroidApplication;
 import org.yavdr.grafdroid.dao.GrafDroidDBHelper;
 import org.yavdr.grafdroid.dao.pojo.Vdr;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.inputmethodservice.Keyboard.Key;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.view.View.OnKeyListener;
 import android.widget.EditText;
 
 import com.j256.ormlite.dao.Dao;
